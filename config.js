@@ -69,7 +69,10 @@ module.exports = function (options) {
 
   loaders.push({
     test: /\.css$/,
-    loader: ExtractTextPlugin.extract('style-loader', 'css-loader', 'postcss-loader')
+    loader: ExtractTextPlugin.extract(
+      'style-loader',
+      'css-loader?modules&importLoaders=1&localIdentName=[name]__[local]___[hash:base64:5]!postcss-loader'
+    )
   })
 
   loaders.push({
