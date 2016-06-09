@@ -3,6 +3,7 @@ var path = require('path')
 var autoprefixer = require('autoprefixer')
 var precss = require('precss')
 var cssnano = require('cssnano')
+var nested = require('postcss-nested')
 var HtmlWebpackPlugin = require('html-webpack-plugin')
 var WebpackCleanupPlugin = require('webpack-cleanup-plugin')
 var ExtractTextPlugin = require('extract-text-webpack-plugin')
@@ -88,11 +89,11 @@ module.exports = function (options) {
   if (options.postcss) {
     if (config.optimize) {
       config.postcss = function () {
-        return [precss, autoprefixer, cssnano]
+        return [precss, nested, autoprefixer, cssnano]
       }
     } else {
       config.postcss = function () {
-        return [precss, autoprefixer]
+        return [precss, nested, autoprefixer]
       }
     }
   }
