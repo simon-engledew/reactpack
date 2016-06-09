@@ -54,6 +54,7 @@ var port = program.port || 8000
 var webpackConfig = config({
   entry: entry,
   bundle: bundle,
+  postcss: program.postcss,
   sourceMap: program.sourceMap,
   optimize: program.optimize,
   lint: program.lint,
