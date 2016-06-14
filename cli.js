@@ -62,6 +62,7 @@ var webpackConfig = config({
   postcss: program.postcss,
   sourceMap: program.sourceMap,
   optimize: program.optimize,
+  publicPath: program.subpath,
   lint: program.lint,
   dev: program.dev,
   port: port,

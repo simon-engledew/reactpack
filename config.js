@@ -30,7 +30,8 @@ module.exports = function (options) {
     },
     output: {
       path: path.resolve(bundleDir),
-      filename: bundleBasename
+      filename: bundleBasename,
+      publicPath: options.publicPath ? options.publicPath : undefined
     },
     module: {},
     plugins: []
