@@ -14,7 +14,7 @@ module.exports = function (config, options) {
   var server = new WebpackDevServer(compiler, {
     contentBase: config.output.path,
     historyApiFallback: true,
-
+    publicPath: options.subpath,
     watchOptions: {
       aggregateTimeout: 300
     },
