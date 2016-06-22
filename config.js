@@ -24,7 +24,13 @@ module.exports = function (options) {
   var eslintConf = eslintrcUp.sync({cwd: process.cwd()})
 
   var config = {
-    entry: entry,
+    entry: [
+      entry,
+    ].concat(options.dev ? [
+      `webpack-dev-server/client?http://localhost:${ options.port }/`,
+      'webpack/hot/dev-server'
+    ] :
+    []),
     resolveLoader: {
       root: path.join(__dirname, 'node_modules')
     },
@@ -83,8 +89,13 @@ module.exports = function (options) {
       presets: [
         'babel-preset-es2015',
         'babel-preset-react',
-        'babel-preset-stage-0'
-      ].map(require.resolve)
+        'babel-preset-stage-0',
+      ].concat(
+        options.dev ? [
+          'babel-preset-react-hmre'
+        ] :
+        []
+      ).map(require.resolve)
     }
   })
 

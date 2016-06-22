@@ -18,6 +18,7 @@ module.exports = function (config, options) {
     watchOptions: {
       aggregateTimeout: 300
     },
+    hot: true,
 
     quiet: options.quiet,
     stats: 'errors-only'
