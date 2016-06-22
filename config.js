@@ -86,10 +86,13 @@ module.exports = function (options) {
     exclude: /(node_modules|bower_components)/,
     loader: 'babel',
     query: {
+      plugins: [
+        'babel-plugin-transform-object-assign'
+      ],
       presets: [
         'babel-preset-es2015',
         'babel-preset-react',
-        'babel-preset-stage-0',
+        'babel-preset-stage-0'
       ].concat(
         options.dev ? [
           'babel-preset-react-hmre'
