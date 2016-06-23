@@ -10,14 +10,15 @@ module.exports = function (config, options) {
   })
 
   var compiler = webpack(config)
-
+  var historyApiFallback = options.subpath ? { index: options.subpath } : true
   var server = new WebpackDevServer(compiler, {
     contentBase: config.output.path,
-    historyApiFallback: true,
-
+    publicPath: options.subpath,
+    historyApiFallback: historyApiFallback,
     watchOptions: {
       aggregateTimeout: 300
     },
+    hot: true,
 
     quiet: options.quiet,
     stats: 'errors-only'

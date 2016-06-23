@@ -2,19 +2,24 @@
 
 var pkg = require('./package.json')
 var program = require('commander')
+var format = require('./format')
 
 program
   .version(pkg.version)
   .option('-q, --quiet', 'no output')
-  .option('-O, --optimize', 'optimize')
-  .option('-w, --watch', 'watch')
-  .option('-d, --dev', 'dev')
-  .option('-p, --port', 'port for webpack-dev-server')
-  .option('--clean', 'clean everything in bundle path before building')
-  .option('--no-source-map', 'output source map')
-  .option('--no-postcss', 'do not use postcss')
-  .option('--no-html', 'do not output an index.html')
+  .option('-O, --optimize', 'optimize css and js using minifiers')
+  .option('-w, --watch', 'watch mode, rebuild bundle on file changes')
+  .option('-d, --dev', 'start a dev server with hot module replacement')
+  .option('-p, --port <port>', 'port for dev server (default is 8000)', parseInt)
+  .option('-s, --subpath <subpath>', 'subpath to run dev server on, useful for having an application on its own subpath')
+  .option('--standard', 'force standard linting (do not look for eslint config)')
+  .option('--clean', 'delete everything in bundle path before building')
+  .option('--no-source-map', 'don\'t output source maps for css and js')
+  .option('--no-postcss', 'don\'t use postcss (autoprefixer and precss)')
+  .option('--no-html', 'don\'t output an index.html')
+  .option('--no-extract', 'don\'t extract css into separate bundle')
   .option('--no-lint', 'turn off linting')
+  .option('--no-env', 'don\'t try and load .env.js file')
   .arguments('<entry> [path/to/bundle]')
 
 program.parse(process.argv)
@@ -57,16 +62,25 @@ var webpackConfig = config({
   postcss: program.postcss,
   sourceMap: program.sourceMap,
   optimize: program.optimize,
+  publicPath: program.subpath,
   lint: program.lint,
   dev: program.dev,
   port: port,
   html: program.html,
-  clean: program.clean
+  clean: program.clean,
+  standard: program.standard,
+  extract: program.extract,
+  env: program.env
 })
+
+if (!program.quiet) {
+  format.pre(webpackConfig)
+}
 
 if (program.dev) {
   dev(webpackConfig, {
     quiet: program.quiet,
+    subpath: program.subpath,
     port: port
   })
 } else if (program.watch) {

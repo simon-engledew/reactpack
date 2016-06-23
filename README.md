@@ -1,31 +1,46 @@
-# reactpack [![js-standard-style][standard-image]][standard-url]
+# ![reactpack](reactpack.png)
 
-> one command to build your React frontend.
+[![NPM version][npm-image]][npm-url]
+[![Dependency Status][dep-image]][dep-url]
+[![js-standard-style][standard-image]][standard-url]
 
-<p align="center">
-  <img src="reactpack.png" alt="reactpack"/>
-</p>
+One command to build your React frontend.
 
-- [x] Unified package, only one `npm i` needed.
-- [x] Linting with `standard`.
-- [x] ES6 with Babel presets `react`, `es2015` and `stage-0`.
-- [x] PostCSS with `precss` and `autoprefixer`.
-- [x] Style extraction into css bundle.
-- [x] Automatic index.html creation with `html-webpack-plugin`.
-- [x] Source maps for styles and scripts.
-- [x] Watch mode (`--watch`).
-- [x] Development server mode (`--dev`).
-- [x] Toggle optimizations with `uglify` and `cssnano` (`-O`).
+## Features
+
+- Unified package, only one `npm i` needed.
+- Linting with your `.eslintrc` or with `standard`.
+- ES6 with Babel presets `react`, `es2015` and `stage-0`.
+- PostCSS with `precss` and `autoprefixer`.
+- Style extraction into dedicated css bundle.
+- Include enviroment variables with an `.env.js` file.
+- Automatic index.html creation with `html-webpack-plugin`.
+- Source maps for styles and scripts.
+- Watch mode (`--watch`).
+- Development server mode (`--dev`).
+- Toggle optimizations with `uglify` and `cssnano` (`-O`).
+
+## Table of Contents
+
+  * [Features](#features)
+  * [Install](#install)
+  * [Example](#example)
+  * [FAQ](#faq)
+    * [How do I use another linter than `standard`?](#how-do-i-use-another-linter-than-standard)
+    * [How do I customize index.html?](#how-do-i-customize-indexhtml)
+  * [CLI](#cli)
+  * [Tested on](#tested-on)
+  * [Contributors](#contributors)
 
 ## Install
 
-```sh
+```
 $ npm i reactpack -g
 ```
 
-or
+or for use in `scripts` section of `package.json`
 
-```sh
+```
 $ npm i reactpack --save-dev
 ```
 
@@ -65,8 +80,36 @@ render(<Example />, document.getElementById('react-app'))
 ```
 
 <p align="center">
-  <img src="demo.gif" alt="reactpack"/>
+  <img src="https://raw.githubusercontent.com/olahol/reactpack/master/demo.gif" alt="reactpack"/>
 </p>
+
+## FAQ
+
+##### How do I use another linter than `standard`?
+
+`reactpack` will look for an eslint config (`.eslintrc`, `.eslintrc.json` ...) and if one is present
+it will use that one. Make sure that you have all the dependencies installed (plugins etc) to run your linter.
+
+##### How do I customize index.html?
+
+Place an `index.ejs` file in the same directory as your entry script and `reactpack` will use it
+for generating html. The default `index.ejs` looks like:
+
+```html
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="Content-type" content="text/html; charset=utf-8"/>
+    <title><%= htmlWebpackPlugin.options.title %></title>
+    <% if (htmlWebpackPlugin.options.dev) { %>
+    <script src="http://localhost:<%= htmlWebpackPlugin.options.port %>/webpack-dev-server.js"></script>
+    <% } %>
+  </head>
+  <body>
+    <div id="react-app"></div>
+  </body>
+</html>
+```
 
 ## CLI
 
@@ -75,19 +118,38 @@ render(<Example />, document.getElementById('react-app'))
 
   Options:
 
-    -h, --help       output usage information
-    -V, --version    output the version number
-    -q, --quiet      no output
-    -O, --optimize   optimize
-    -w, --watch      watch
-    -d, --dev        dev
-    -p, --port       port for webpack-dev-server
-    --clean          clean everything in bundle path before building
-    --no-source-map  do not output source map
-    --no-postcss     do not use postcss
-    --no-html        do not output an index.html
-    --no-lint        turn off linting
+    -h, --help         output usage information
+    -V, --version      output the version number
+    -q, --quiet        no output
+    -O, --optimize     optimize css and js using minifiers
+    -w, --watch        watch mode, rebuild bundle on file changes
+    -d, --dev          start a dev server with hot module replacement
+    -p, --port <port>  port for dev server (default is 8000)
+    --standard         force standard linting (do not look for eslint config)
+    --clean            delete everything in bundle path before building
+    --no-source-map    don't output source maps for css and js
+    --no-postcss       don't use postcss (autoprefixer and precss)
+    --no-html          don't output an index.html
+    --no-extract       don't extract css into separate bundle
+    --no-lint          turn off linting
+    --no-env           don't try and load .env.js file
 ```
 
-[standard-image]: https://img.shields.io/badge/code%20style-standard-brightgreen.svg?style=flat-square
+## Tested on
+
+- Windows 7 with node 6 and npm 3
+- Ubuntu 12.04 with node 6 and npm 3
+
+## Contributors
+
+* Ola Holmström (@olahol)
+* Tarjei Huse (@tarjei)
+* Code Hz (@codehz)
+* Erik Huisman (@erikhuisman)
+
+[npm-image]: https://img.shields.io/npm/v/reactpack.svg
+[npm-url]: https://npmjs.org/package/reactpack
+[dep-image]: https://david-dm.org/olahol/reactpack/status.svg
+[dep-url]: https://david-dm.org/olahol/reactpack
+[standard-image]: https://img.shields.io/badge/code%20style-standard-brightgreen.svg
 [standard-url]: https://github.com/feross/standard
