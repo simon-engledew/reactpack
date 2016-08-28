@@ -120,15 +120,17 @@ module.exports = function (options) {
     loader: 'json'
   })
 
+  var cssLoader = 'css?modules&importLoaders=1&localIdentName=[name]__[local]___[hash:base64:5]!postcss';
+
   if (options.extract) {
     loaders.push({
       test: /\.css$/,
-      loader: ExtractTextPlugin.extract('style-loader', 'css-loader', 'postcss-loader')
+      loader: ExtractTextPlugin.extract('style-loader', cssLoader)
     })
   } else {
     loaders.push({
       test: /\.css$/,
-      loader: 'style!css!postcss'
+      loaders: ['style', cssLoader]
     })
   }
 
